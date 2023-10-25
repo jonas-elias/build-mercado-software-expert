@@ -1,0 +1,28 @@
+version: '3'
+name: mercado-software-expert
+services:
+  vuejs:
+    build:
+      context: ./apps/frontend
+    container_name: vuejs-app
+    volumes:
+      - ./vue-app:/app
+    ports:
+      - "8080:8080"
+
+  backend:
+    container_name: 'application-mercado'
+    build:
+      context: ./apps/backend
+    ports:
+      - 8000:8000
+
+  db:
+    container_name: 'db-mercado'
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
