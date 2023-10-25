@@ -8,7 +8,7 @@ services:
     volumes:
       - ./vue-app:/app
     ports:
-      - "8080:8080"
+      - "8001:8001"
 
   backend:
     container_name: 'application-mercado'
