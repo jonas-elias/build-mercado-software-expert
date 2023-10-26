@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image to project
       run: |
         cd .
-        docker-compose up -d
+        docker compose up -d
