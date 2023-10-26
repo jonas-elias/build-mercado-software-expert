@@ -1,28 +1,32 @@
 version: '3'
-name: mercado-software-expert
+name: mercado-software-expert-production
 services:
   vuejs:
     build:
       context: ./apps/frontend
-    container_name: vuejs-app
+    container_name: vuejs-app-production
     volumes:
       - ./vue-app:/app
     ports:
       - "80:80"
 
   backend:
-    container_name: 'application-mercado'
+    container_name: 'application-mercado-production'
     build:
       context: ./apps/backend
     ports:
       - 8000:8000
 
   db:
-    container_name: 'db-mercado'
+    container_name: 'db-mercado-production'
     image: postgres
     restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes: 
+      - ./db:/var/lib/postgresql/data
+      - ./create-db.sql:/docker-entrypoint-initdb.d/create_database.sql
     ports:
       - 5432:5432
