@@ -14,17 +14,17 @@
                         </svg>
                     </label>
                 </div>
-                <img class="btn btn-ghost normal-case text-xl"
-                    src="https://www.softexpert.com/wp-content/themes/Zephyr-child/icon-softexpert-site.png"
-                    alt="SoftExpert Logo">
+                <a href="https://www.softexpert.com/">
+                    <img class="btn btn-ghost normal-case text-xl"
+                        src="https://www.softexpert.com/wp-content/themes/Zephyr-child/icon-softexpert-site.png"
+                        alt="SoftExpert Logo">
+                </a>
             </div>
-
             <Navbar />
             <ModalSuccess />
-            <ModalError />
-
+            <ModalError :error-message="this.mensagem_erro" />
             <div class="navbar-end">
-                <a class="btn">GitHub</a>
+                <a href="https://github.com/jonas-elias/mercado-software-expert-frontend.git" class="btn">GitHub</a>
             </div>
         </div>
 
@@ -159,7 +159,8 @@ export default {
             id_produto: null,
             insert: true,
             tipos_produtos: [],
-            titulo_modal: 'Adicione o produto'
+            titulo_modal: 'Adicione o produto',
+            mensagem_erro: '',
         }
     },
     components: {
@@ -175,7 +176,8 @@ export default {
         getProdutos() {
             axios.get(this.apiProdutos).then((res: any) => {
                 this.items = res.data['dados']
-            }).catch(() => {
+            }).catch((error) => {
+                this.mensagem_erro = error.response.data.detalhes_erro
                 console.error("Erro na solicitação:");
             });
         },
@@ -183,7 +185,7 @@ export default {
             axios.get(this.apiTipoProdutos).then((res: any) => {
                 this.tipos_produtos = res.data['dados']
             }).catch((error: any) => {
-                console.error("Erro na solicitação:", error);
+                this.mensagem_erro = error.response.data.detalhes_erro
             });
         },
         saveProduto() {
@@ -197,7 +199,8 @@ export default {
                 this.openModalSuccess()
                 this.resetAttributes()
                 this.getProdutos()
-            }).catch(() => {
+            }).catch((error) => {
+                this.mensagem_erro = error.response.data.detalhes_erro
                 this.openModalError()
             })
         },
@@ -211,7 +214,8 @@ export default {
                 this.openModalSuccess()
                 this.resetAttributes()
                 this.getProdutos()
-            }).catch(() => {
+            }).catch((error) => {
+                this.mensagem_erro = error.response.data.detalhes_erro
                 this.openModalError()
             });
         },
@@ -224,11 +228,13 @@ export default {
                 this.descricao = res.data['dados'][0]['descricao']
                 this.preco = res.data['dados'][0]['preco']
                 this.id_tipo_produto = res.data['dados'][0]['id_tipo_produto']
-            }).catch(() => {
+            }).catch((error) => {
+                this.mensagem_erro = error.response.data.detalhes_erro
                 this.openModalError()
             });
         },
         create() {
+            this.resetAttributes()
             this.titulo_modal = 'Adicione o produto'
             this.insert = true
         },
@@ -251,7 +257,8 @@ export default {
             axios.delete(this.apiProdutos + '/' + this.id_produto).then(() => {
                 this.openModalSuccess()
                 this.getProdutos()
-            }).catch(() => {
+            }).catch((error) => {
+                this.mensagem_erro = error.response.data.detalhes_erro
                 this.openModalError()
             });
         },

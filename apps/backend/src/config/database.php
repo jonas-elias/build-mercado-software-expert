@@ -2,7 +2,7 @@
 
 return [
     'connection' => 'pgsql',
-    'host'       => 'db-mercado',
+    'host'       => 'db-mercado-production',
     'dbname'     => 'postgres',
     'port'       => 5432,
     'user'       => 'user',
