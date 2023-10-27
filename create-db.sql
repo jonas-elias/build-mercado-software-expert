@@ -35,7 +35,8 @@ CREATE TABLE itens_venda
  id_venda INT,  
  id_produto INT,  
  valor_item FLOAT NOT NULL,  
- valor_imposto INT NOT NULL
+ valor_imposto INT NOT NULL,
+ quantidade INT NOT NULL
 );
 
 ALTER TABLE produto ADD CONSTRAINT fk_produto_tipo_produto FOREIGN KEY (id_tipo_produto) REFERENCES tipo_produto (id);
